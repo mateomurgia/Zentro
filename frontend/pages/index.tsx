@@ -1,5 +1,13 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
+
+
+<Link href="/inventory">
+  <button className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+    Ver inventario
+  </button>
+</Link>
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
