@@ -1,5 +1,3 @@
-// frontend/pages/inventory.tsx
-
 import React, { useEffect, useState } from "react";
 import {
   fetchProductos,
@@ -18,7 +16,6 @@ export default function InventoryPage() {
   const [editing, setEditing] = useState<Producto | null>(null);
   const [showForm, setShowForm] = useState(false);
 
-  // Cargar productos
   const cargar = () => {
     setLoading(true);
     fetchProductos()
@@ -31,7 +28,6 @@ export default function InventoryPage() {
     cargar();
   }, []);
 
-  // Alta
   const handleAdd = async (prod: Producto) => {
     try {
       await addProducto(prod);
@@ -42,7 +38,6 @@ export default function InventoryPage() {
     }
   };
 
-  // Editar
   const handleEdit = async (prod: Producto) => {
     try {
       await editProducto(prod.sku, prod);
@@ -53,7 +48,6 @@ export default function InventoryPage() {
     }
   };
 
-  // Eliminar
   const handleDelete = async (sku: string) => {
     if (!window.confirm("¿Seguro que querés eliminar este producto?")) return;
     try {
@@ -64,37 +58,44 @@ export default function InventoryPage() {
     }
   };
 
-  if (loading) return <div className="p-6">Cargando inventario...</div>;
-  if (error) return <div className="p-6 text-red-500">{error}</div>;
-
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Inventario</h1>
+    <div>
+      <div className="flex items-center gap-4 mb-8 border-b border-[#A5D6A7] pb-4">
+        <h1 className="text-3xl font-extrabold text-[#2E7D32] tracking-tight">
+          Inventario
+        </h1>
+      </div>
       <button
-        className="mb-4 px-4 py-2 bg-green-600 text-white rounded"
+        className="mb-6 bg-[#2E7D32] hover:bg-[#256427] text-white font-bold px-6 py-2 rounded-xl shadow transition duration-200"
         onClick={() => {
           setEditing(null);
           setShowForm(true);
         }}
       >
-        Nuevo producto
+        + Nuevo producto
       </button>
-
-      {showForm && (
-        <InventoryForm
-          onSubmit={handleAdd}
-          onCancel={() => setShowForm(false)}
-        />
+      {(showForm || editing) && (
+        <div className="mb-8">
+          <InventoryForm
+            initial={editing || undefined}
+            onSave={editing ? handleEdit : handleAdd}
+            onCancel={() => {
+              setShowForm(false);
+              setEditing(null);
+            }}
+          />
+        </div>
       )}
-
-      {editing && (
-        <InventoryForm
-          initial={editing}
-          onSubmit={handleEdit}
-          onCancel={() => setEditing(null)}
-        />
+      {loading && (
+        <div className="p-8 text-center text-[#2E7D32] font-bold text-lg">
+          Cargando inventario...
+        </div>
       )}
-
+      {error && (
+        <div className="p-6 text-red-600 bg-red-50 border border-red-200 rounded-lg my-4">
+          {error}
+        </div>
+      )}
       <InventoryTable
         productos={productos}
         onEdit={(sku) => {

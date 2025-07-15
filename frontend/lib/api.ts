@@ -39,11 +39,11 @@ export async function editProducto(sku: string, prod: Producto) {
   return res.json();
 }
 
-// Eliminar producto
+// ✅ Eliminar producto (sin intentar parsear JSON si no hay contenido)
 export async function deleteProducto(sku: string) {
   const res = await fetch(`${API_URL}/api/inventory/${sku}`, {
     method: "DELETE",
   });
   if (!res.ok) throw new Error("Error eliminando producto");
-  return res.json();
+  // No se hace res.json() porque backend puede devolver 204 vacío
 }

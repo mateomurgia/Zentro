@@ -70,4 +70,4 @@ app.delete("/api/inventory/:sku", async (req: Request, res: Response) => {
   }
 });
 
-app.listen(3001, () => console.log("Backend corriendo en http://localhost:3001"));
+app.listen(3001, () => console.log("Backend corriendo en http://localhost:3001/api/inventory"));
