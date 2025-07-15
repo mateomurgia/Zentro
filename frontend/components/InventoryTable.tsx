@@ -26,7 +26,7 @@ const InventoryTable: React.FC<Props> = ({ productos, onEdit, onDelete }) => (
         </tr>
       </thead>
       <tbody>
-        {productos.map((p, idx) => (
+ñ        {productos.map((p, idx) => (
           <tr key={p.sku} className={idx % 2 === 0 ? "bg-white" : "bg-[#F8FAFC]"}>
             <td className="p-4">
               {p.fotoUrl ? (
